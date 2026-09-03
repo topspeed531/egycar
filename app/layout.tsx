@@ -1,4 +1,5 @@
 import './globals.css';
+import { ClerkProvider } from '@clerk/nextjs';
 import { FavoritesProvider } from '@/contexts/FavoritesContext';
 
 export const metadata = {
@@ -6,12 +7,14 @@ export const metadata = {
   description: 'سوق سيارات مصري حديث',
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl">
-      <body>
-        <FavoritesProvider>{children}</FavoritesProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="ar" dir="rtl">
+        <body>
+          <FavoritesProvider>{children}</FavoritesProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

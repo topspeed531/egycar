@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Heart, UserRound, Plus } from 'lucide-react';
+import { Heart, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getFavoriteIds } from './favorites';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 export default function Header() {
   const [favoriteCount, setFavoriteCount] = useState(0);
@@ -72,10 +73,18 @@ export default function Header() {
             )}
           </Link>
 
-          {/* User */}
-          <button className="hidden md:block p-2.5 rounded-xl border">
-            <UserRound size={18} />
-          </button>
+          {/* User Authentication */}
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition">
+                دخول
+              </button>
+            </SignInButton>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
         </div>
       </div>
     </header>
