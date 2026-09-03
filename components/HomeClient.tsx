@@ -1,29 +1,94 @@
-'use client'; import {useMemo,useState} from 'react'; import {ArrowLeft,BadgeCheck,ShieldCheck,Headphones,Search} from 'lucide-react'; import {brands,cars,cities} from '@/lib/data'; import CarCard from './CarCard';
-export default function HomeClient(){const [brand,setBrand]=useState(brands[0]),[city,setCity]=useState(cities[0]),[max,setMax]=useState(''),[q,setQ]=useState(''); const filtered=useMemo(()=>cars.filter(c=>(brand===brands[0]||c.brand===brand)&&(city===cities[0]||c.city===city)&&(!max||c.price<=+max)&&(!q||(`${c.brand} ${c.model}`).toLowerCase().includes(q.toLowerCase()))),[brand,city,max,q]); return <>
-<section className="bg-gradient-to-br from-blue-700 to-blue-950 text-white py-16 lg:py-20"><div className="container grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-center"><div><span className="inline-block px-3 py-1 rounded-full bg-white/15 text-sm mb-5">سوق السيارات في مصر</span><h1 className="text-4xl md:text-6xl font-black leading-tight mb-5">بيع واشتري عربيتك<br/><span className="text-blue-200">بثقة وبأفضل سعر</span></h1><p className="text-blue-100 text-lg leading-8 max-w-xl">ابحث بين السيارات من مختلف المحافظات، وشوف السعر والمواصفات والصور في مكان واحد.</p></div><div className="bg-white text-slate-900 rounded-3xl p-6 shadow-2xl"><div className="flex justify-between mb-5"><div><h2 className="text-xl font-black">إبحث عن عربيتك</h2><p className="text-sm text-slate-500 mt-1">استخدم الفلاتر للوصول لنتيجتك</p></div><Search className="text-blue-600"/></div><input value={q} onChange={e=>setQ(e.target.value)} placeholder="ماركة أو موديل — مثال BMW" className="w-full px-4 py-3 rounded-xl border mb-3"/><div className="grid grid-cols-2 gap-3 mb-3"><select value={brand} onChange={e=>setBrand(e.target.value)} className="px-4 py-3 rounded-xl border">{brands.map(x=><option key={x}>{x}</option>)}</select><select value={city} onChange={e=>setCity(e.target.value)} className="px-4 py-3 rounded-xl border">{cities.map(x=><option key={x}>{x}</option>)}</select></div><div className="grid grid-cols-2 gap-3"><input value={max} onChange={e=>setMax(e.target.value.replace(/\D/g,''))} placeholder="أقصى سعر بالجنيه" className="px-4 py-3 rounded-xl border"/><button onClick={()=>{setBrand(brands[0]);setCity(cities[0]);setMax('');setQ('')}} className="rounded-xl bg-slate-100 font-bold">مسح</button></div><a href="#cars" className="mt-3 w-full flex justify-center items-center gap-2 px-5 py-3.5 rounded-xl bg-blue-600 text-white font-black">عرض {filtered.length} سيارة <ArrowLeft size={17}/></a></div></div></section>
-<section className="container py-16" id="cars"><div className="mb-8"><div className="text-blue-600 font-bold">اختيارات اليوم</div><h2 className="text-3xl font-black">سيارات مميزة للبيع</h2></div>{filtered.length?<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">{filtered.map(c=><CarCard car={c} key={c.id}/>)}</div>:<div className="card p-12 text-center text-slate-500">مفيش سيارات مطابقة.</div>}</section>
-<div className="flex gap-2 mt-4 pt-3 border-t">
-  <a
-    href={`tel:${car.phone || '+201015113347'}`}
-    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 text-sm font-bold transition"
-  >
-    <span>اتصال</span>
-  </a>
-  
-  <a
-    href={`https://wa.me/${car.whatsapp || '+201015113347'}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 text-sm font-bold transition"
-  >
-    <span>واتساب</span>
-  </a>
-</div>
-<a
-  href="https://wa.me/+201015113347?text=السلام%20عليهم،%20عايز%20أضيف%20عربيتي%20للبيع%20على%20الموقع"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-flex items-center justify-center bg-white text-blue-600 font-black px-6 py-3 rounded-xl hover:bg-slate-100 transition shadow-md"
->
-  ابدأ إضافة سيارة
-</a>
+'use client'; 
+import { useMemo, useState } from 'react'; 
+import { ArrowLeft, Search } from 'lucide-react'; 
+import { brands, cars, cities } from '@/lib/data'; 
+import CarCard from './CarCard';
+
+export default function HomeClient() {
+  const [brand, setBrand] = useState(brands[0]);
+  const [city, setCity] = useState(cities[0]);
+  const [max, setMax] = useState('');
+  const [q, setQ] = useState(''); 
+
+  const filtered = useMemo(() => 
+    cars.filter(c => 
+      (brand === brands[0] || c.brand === brand) && 
+      (city === cities[0] || c.city === city) && 
+      (!max || c.price <= +max) && 
+      (!q || (`${c.brand} ${c.model}`).toLowerCase().includes(q.toLowerCase()))
+    ), [brand, city, max, q]
+  ); 
+
+  return (
+    <>
+      <section className="bg-gradient-to-br from-blue-700 to-blue-950 text-white py-16 lg:py-20">
+        <div className="container grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-center">
+          <div>
+            <span className="inline-block px-3 py-1 rounded-full bg-white/15 text-sm mb-5">سوق السيارات في مصر</span>
+            <h1 className="text-4xl md:text-6xl font-black leading-tight mb-5">
+              بيع واشتري عربيتك<br />
+              <span className="text-blue-200">بثقة وبأفضل سعر</span>
+            </h1>
+            <p className="text-blue-100 text-lg leading-8 max-w-xl">
+              ابحث بين السيارات من مختلف المحافظات، وشوف السعر والمواصفات والصور في مكان واحد.
+            </p>
+          </div>
+          <div className="bg-white text-slate-900 rounded-3xl p-6 shadow-2xl">
+            <div className="flex justify-between mb-5">
+              <div>
+                <h2 className="text-xl font-black">إبحث عن عربيتك</h2>
+                <p className="text-sm text-slate-500 mt-1">استخدم الفلاتر للوصول لنتيجتك</p>
+              </div>
+              <Search className="text-blue-600" />
+            </div>
+            <input 
+              value={q} 
+              onChange={e => setQ(e.target.value)} 
+              placeholder="ماركة أو موديل — مثال BMW" 
+              className="w-full px-4 py-3 rounded-xl border mb-3" 
+            />
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <select value={brand} onChange={e => setBrand(e.target.value)} className="px-4 py-3 rounded-xl border">
+                {brands.map(x => <option key={x}>{x}</option>)}
+              </select>
+              <select value={city} onChange={e => setCity(e.target.value)} className="px-4 py-3 rounded-xl border">
+                {cities.map(x => <option key={x}>{x}</option>)}
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <input 
+                value={max} 
+                onChange={e => setMax(e.target.value.replace(/\D/g, ''))} 
+                placeholder="أقصى سعر بالجنيه" 
+                className="px-4 py-3 rounded-xl border" 
+              />
+              <button 
+                onClick={() => { setBrand(brands[0]); setCity(cities[0]); setMax(''); setQ(''); }} 
+                className="rounded-xl bg-slate-100 font-bold"
+              >
+                مسح
+              </button>
+            </div>
+            <a href="#cars" className="mt-3 w-full flex justify-center items-center gap-2 px-5 py-3.5 rounded-xl bg-blue-600 text-white font-black">
+              عرض {filtered.length} سيارة <ArrowLeft size={17} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="container py-16" id="cars">
+        <div className="mb-8">
+          <div className="text-blue-600 font-bold">اختيارات اليوم</div>
+          <h2 className="text-3xl font-black">سيارات مميزة للبيع</h2>
+        </div>
+        {filtered.length ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {filtered.map(c => <CarCard car={c} key={c.id} />)}
+          </div>
+        ) : (
+          <div className="card p-12 text-center text-slate-500">مفيش سيارات مطابقة.</div>
+        )}
+      </section>
+    </>
+  );
+}
