@@ -75,16 +75,14 @@ export default function Header() {
           </Link>
 
           {/* User Authentication */}
-          {isLoaded && (
-            isSignedIn ? (
-              <UserButton afterSignOutUrl="/" />
-            ) : (
-              <SignInButton mode="modal">
-                <button className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition">
-                  دخول
-                </button>
-              </SignInButton>
-            )
+          {!isLoaded || !isSignedIn ? (
+            <SignInButton mode="modal">
+              <button className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition">
+                تسجيل الدخول
+              </button>
+            </SignInButton>
+          ) : (
+            <UserButton afterSignOutUrl="/" />
           )}
         </div>
       </div>
