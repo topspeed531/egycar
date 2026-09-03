@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { Heart, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getFavoriteIds } from './favorites';
-import { useUser, SignInButton, UserButton } from '@clerk/nextjs';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function Header() {
   const [favoriteCount, setFavoriteCount] = useState(0);
-  const { isSignedIn, isLoaded } = useUser();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const updateCount = () => {
@@ -75,14 +75,20 @@ export default function Header() {
           </Link>
 
           {/* User Authentication */}
-          {!isLoaded || !isSignedIn ? (
-            <SignInButton mode="modal">
-              <button className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition">
-                تسجيل الدخول
-              </button>
-            </SignInButton>
+          {status === 'authenticated' ? (
+            <button
+              onClick={() => signOut()}
+              className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition"
+            >
+              تسجيل خروج ({session.user?.name?.split(' ')[0]})
+            </button>
           ) : (
-            <UserButton afterSignOutUrl="/" />
+            <button
+              onClick={() => signIn()}
+              className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition"
+            >
+              تسجيل الدخول
+            </button>
           )}
         </div>
       </div>

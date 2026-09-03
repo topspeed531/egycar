@@ -1,15 +1,20 @@
 import './globals.css';
-import { ClerkProvider } from '@clerk/nextjs';
+import Providers from '@/components/Providers';
 import { FavoritesProvider } from '@/contexts/FavoritesContext';
+
+export const metadata = {
+  title: 'EgyCar | سوق السيارات في مصر',
+  description: 'سوق سيارات مصري حديث',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <html lang="ar" dir="rtl">
-        <body>
+    <html lang="ar" dir="rtl">
+      <body>
+        <Providers>
           <FavoritesProvider>{children}</FavoritesProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }
