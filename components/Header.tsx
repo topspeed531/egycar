@@ -1,14 +1,14 @@
 'use client';
-export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { Heart, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getFavoriteIds } from './favorites';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { useUser, SignInButton, UserButton } from '@clerk/nextjs';
 
 export default function Header() {
   const [favoriteCount, setFavoriteCount] = useState(0);
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     const updateCount = () => {
@@ -75,17 +75,17 @@ export default function Header() {
           </Link>
 
           {/* User Authentication */}
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition">
-                دخول
-              </button>
-            </SignInButton>
-          </SignedOut>
-
-          <SignedIn>
-            <UserButton afterSignOutUrl="/" />
-          </SignedIn>
+          {isLoaded && (
+            isSignedIn ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
+              <SignInButton mode="modal">
+                <button className="px-4 py-2.5 rounded-xl border font-bold text-sm hover:bg-slate-50 transition">
+                  دخول
+                </button>
+              </SignInButton>
+            )
+          )}
         </div>
       </div>
     </header>
