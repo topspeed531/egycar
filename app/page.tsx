@@ -23,6 +23,8 @@ export default function HomePage() {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
 
+  const WA_NUMBER = "201015113347";
+
   useEffect(() => {
     // متابعة حالة تسجيل الدخول للزائر
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -101,7 +103,7 @@ export default function HomePage() {
           </div>
 
           <nav className="flex items-center gap-2 sm:gap-3">
-            {/* زر تسجيل دخول الزوار */}
+            {/* تسجيل دخول الزوار */}
             {user ? (
               <div className="flex items-center gap-2 bg-gray-100 p-1 pl-3 rounded-xl">
                 {user.photoURL && (
@@ -139,10 +141,20 @@ export default function HomePage() {
               </span>
             </button>
 
+            {/* زر بيع عربيتك - يوجه للواتساب مباشرة */}
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("السلام عليكم، أرغب في إضافة سيارتي للبيع على الموقع")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl shadow-sm transition flex items-center gap-1"
+            >
+              🚗 بيع عربيتك
+            </a>
+
             {/* زر Admin */}
             <Link
               href="/admin"
-              className="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl shadow-sm transition flex items-center gap-1"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-3 py-2 rounded-xl shadow-sm transition flex items-center gap-1"
             >
               🔑 Admin
             </Link>
@@ -184,7 +196,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* عرض المعرض */}
+      {/* المعرض */}
       <main className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex justify-between items-center mb-6">
           <div>
